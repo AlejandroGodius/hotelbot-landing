@@ -39,7 +39,7 @@ export default function Navbar() {
               HotelBot
             </span>
             <span className="hidden sm:inline text-[10px] text-[var(--gold-dim)] tracking-wider uppercase" style={{ fontFamily: "'Inter', sans-serif" }}>
-              AI Concierge
+              Intelligent Hospitality
             </span>
           </a>
 

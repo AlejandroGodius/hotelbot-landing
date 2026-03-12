@@ -2,11 +2,11 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'HotelBot — AI Concierge for Luxury Hospitality',
-  description: 'Intelligent WhatsApp concierge for premium hotels and villas. 24/7 multilingual guest assistance powered by AI.',
+  title: 'HotelBot — Intelligent Hospitality for Luxury Properties',
+  description: 'AI-powered guest experience platform for premium hotels and villas. 24/7 multilingual service via WhatsApp.',
   openGraph: {
-    title: 'HotelBot — AI Concierge for Luxury Hospitality',
-    description: 'The reception that never sleeps. WhatsApp AI for 5-star hotels and premium villas.',
+    title: 'HotelBot — Intelligent Hospitality for Luxury Properties',
+    description: 'The guest experience platform that never sleeps. 5 AI agents working 24/7 for your property.',
     type: 'website',
   },
 }

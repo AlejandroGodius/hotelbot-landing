@@ -55,7 +55,7 @@ export default function Hero() {
           className="mt-8 text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed font-light"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
-          An intelligent WhatsApp concierge for luxury hotels and villas.
+          The intelligent guest experience platform for luxury hotels and villas.
           <br className="hidden md:block" />
           Five specialized AI agents working{' '}
           <span className="text-white">24/7 in every language</span>.

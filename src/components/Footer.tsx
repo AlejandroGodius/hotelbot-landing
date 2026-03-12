@@ -7,7 +7,7 @@ export default function Footer() {
             HotelBot
           </span>
           <span className="text-xs text-gray-600" style={{ fontFamily: "'Inter', sans-serif" }}>
-            AI Concierge for Luxury Hospitality
+            Intelligent Hospitality
           </span>
         </div>
         <div className="flex items-center gap-8 text-xs text-gray-600" style={{ fontFamily: "'Inter', sans-serif" }}>
