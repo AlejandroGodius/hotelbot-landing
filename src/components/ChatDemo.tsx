@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import AnimatedSection from './AnimatedSection'
+import { useI18n } from '@/lib/i18n'
 
 interface ChatMessage {
   role: 'user' | 'bot' | 'system'
@@ -187,11 +188,11 @@ const SCENARIOS: Scenario[] = [
   },
 ]
 
-const STATUS_CFG: Record<string, { label: string; color: string; bg: string; icon: string }> = {
-  pending: { label: 'Nueva', color: 'text-red-400', bg: 'bg-red-500/20', icon: '🔴' },
-  assigned: { label: 'Recibido', color: 'text-yellow-400', bg: 'bg-yellow-500/20', icon: '👀' },
-  in_progress: { label: 'Asistiendo', color: 'text-blue-400', bg: 'bg-blue-500/20', icon: '🔧' },
-  completed: { label: 'Resuelto', color: 'text-emerald-400', bg: 'bg-emerald-500/20', icon: '✅' },
+const STATUS_CFG: Record<string, { labelKey: string; color: string; bg: string; icon: string }> = {
+  pending: { labelKey: 'task.new', color: 'text-red-400', bg: 'bg-red-500/20', icon: '🔴' },
+  assigned: { labelKey: 'task.received', color: 'text-yellow-400', bg: 'bg-yellow-500/20', icon: '👀' },
+  in_progress: { labelKey: 'task.attending', color: 'text-blue-400', bg: 'bg-blue-500/20', icon: '🔧' },
+  completed: { labelKey: 'task.resolved', color: 'text-emerald-400', bg: 'bg-emerald-500/20', icon: '✅' },
 }
 
 const PRIORITY_CFG: Record<string, { color: string; pulse: boolean }> = {
@@ -206,6 +207,7 @@ export default function ChatDemo() {
   const [isTyping, setIsTyping] = useState(false)
   const [dashboardVisible, setDashboardVisible] = useState(0)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const { t } = useI18n()
 
   const scenario = SCENARIOS[activeScenario]
 
@@ -243,15 +245,15 @@ export default function ChatDemo() {
       <div className="max-w-7xl mx-auto">
         <AnimatedSection className="text-center mb-16">
           <p className="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
-            Live Preview
+            {t('demo.label')}
           </p>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-light text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
-            See every agent <span className="italic gradient-gold">in action</span>
+            {t('demo.title.1')}<span className="italic gradient-gold">{t('demo.title.2')}</span>
           </h2>
           <p className="mt-6 text-gray-400 max-w-2xl mx-auto" style={{ fontFamily: "'Inter', sans-serif" }}>
-            Real conversations on the left. Your operations dashboard on the right.
+            {t('demo.subtitle.1')}
             <br className="hidden md:block" />
-            <span className="text-white">Both sides of the experience, in real time.</span>
+            <span className="text-white">{t('demo.subtitle.2')}</span>
           </p>
         </AnimatedSection>
 
@@ -270,7 +272,7 @@ export default function ChatDemo() {
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 <span>{s.icon}</span>
-                <span>{s.label}</span>
+                <span>{t(`agent.${s.id}`)}</span>
                 {activeScenario === i && (
                   <span className="w-1.5 h-1.5 rounded-full ml-1" style={{ background: s.color }} />
                 )}
@@ -284,7 +286,7 @@ export default function ChatDemo() {
             <div className="max-w-sm mx-auto lg:mx-0 lg:ml-auto">
               <div className="text-center mb-3">
                 <span className="text-xs text-gray-600 uppercase tracking-wider" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  Guest Experience
+                  {t('demo.guest')}
                 </span>
               </div>
               <div className="glass rounded-[2rem] p-1 shadow-2xl shadow-black/40">
@@ -305,7 +307,7 @@ export default function ChatDemo() {
                       <div className="text-sm font-medium text-white" style={{ fontFamily: "'Inter', sans-serif" }}>Nobu Hotel Ibiza Bay</div>
                       <div className="text-[10px] text-emerald-400 flex items-center gap-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                        Online
+                        {t('demo.online')}
                       </div>
                     </div>
                   </div>
@@ -363,7 +365,7 @@ export default function ChatDemo() {
                   {/* Input bar */}
                   <div className="px-3 py-3 border-t border-white/5">
                     <div className="flex items-center gap-2 bg-[#1a1a1f] rounded-full px-4 py-2.5">
-                      <span className="text-gray-600 text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>Type a message...</span>
+                      <span className="text-gray-600 text-sm" style={{ fontFamily: "'Inter', sans-serif" }}>{t('demo.type')}</span>
                       <div className="ml-auto w-8 h-8 rounded-full bg-[var(--gold)]/20 flex items-center justify-center">
                         <svg className="w-4 h-4 text-[var(--gold)]" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
@@ -379,7 +381,7 @@ export default function ChatDemo() {
             <div className="max-w-lg mx-auto lg:mx-0 lg:mr-auto">
               <div className="text-center mb-3">
                 <span className="text-xs text-gray-600 uppercase tracking-wider" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  Operations Dashboard
+                  {t('demo.dashboard')}
                 </span>
               </div>
               <div className="glass rounded-2xl overflow-hidden shadow-2xl shadow-black/30">
@@ -392,7 +394,7 @@ export default function ChatDemo() {
                   <div className="flex items-center gap-3">
                     <div className="flex items-center gap-1.5">
                       <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      <span className="text-[10px] text-gray-500">Live</span>
+                      <span className="text-[10px] text-gray-500">{t('demo.live')}</span>
                     </div>
                   </div>
                 </div>
@@ -401,15 +403,15 @@ export default function ChatDemo() {
                 <div className="grid grid-cols-3 gap-2 p-3 border-b border-white/5">
                   <div className="bg-white/[0.02] rounded-lg p-2.5 text-center">
                     <div className="text-lg font-semibold text-white" style={{ fontFamily: "'Inter', sans-serif" }}>{scenario.stats.messages}</div>
-                    <div className="text-[9px] text-gray-500">Messages</div>
+                    <div className="text-[9px] text-gray-500">{t('demo.messages')}</div>
                   </div>
                   <div className="bg-white/[0.02] rounded-lg p-2.5 text-center">
                     <div className="text-lg font-semibold text-emerald-400" style={{ fontFamily: "'Inter', sans-serif" }}>{scenario.stats.resolved}</div>
-                    <div className="text-[9px] text-gray-500">Resolved</div>
+                    <div className="text-[9px] text-gray-500">{t('demo.resolved')}</div>
                   </div>
                   <div className="bg-white/[0.02] rounded-lg p-2.5 text-center">
                     <div className="text-lg font-semibold text-[var(--gold)]" style={{ fontFamily: "'Inter', sans-serif" }}>{scenario.stats.satisfaction}</div>
-                    <div className="text-[9px] text-gray-500">Satisfaction</div>
+                    <div className="text-[9px] text-gray-500">{t('demo.satisfaction')}</div>
                   </div>
                 </div>
 
@@ -417,7 +419,7 @@ export default function ChatDemo() {
                 <div className="border-b border-white/5">
                   <div className="flex items-center gap-2 px-4 py-2.5">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span className="text-[11px] font-medium text-white" style={{ fontFamily: "'Inter', sans-serif" }}>Activity Feed</span>
+                    <span className="text-[11px] font-medium text-white" style={{ fontFamily: "'Inter', sans-serif" }}>{t('demo.feed')}</span>
                   </div>
                   <div className="max-h-[160px] overflow-y-auto">
                     <AnimatePresence>
@@ -446,8 +448,8 @@ export default function ChatDemo() {
                 {/* Tasks */}
                 <div>
                   <div className="flex items-center justify-between px-4 py-2.5">
-                    <span className="text-[11px] font-medium text-white" style={{ fontFamily: "'Inter', sans-serif" }}>Tasks</span>
-                    <span className="text-[9px] text-gray-600">{scenario.dashboardTasks.length} total</span>
+                    <span className="text-[11px] font-medium text-white" style={{ fontFamily: "'Inter', sans-serif" }}>{t('demo.tasks')}</span>
+                    <span className="text-[9px] text-gray-600">{scenario.dashboardTasks.length} {t('demo.total')}</span>
                   </div>
                   <div className="max-h-[230px] overflow-y-auto pb-2">
                     {scenario.dashboardTasks.map((task, i) => {
@@ -465,7 +467,7 @@ export default function ChatDemo() {
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-1.5 mb-1">
                                 <span className={`text-[9px] px-1.5 py-0.5 rounded-full ${stCfg.bg} ${stCfg.color}`} style={{ fontFamily: "'Inter', sans-serif" }}>
-                                  {stCfg.icon} {stCfg.label}
+                                  {stCfg.icon} {t(stCfg.labelKey)}
                                 </span>
                                 {task.priority !== 'normal' && (
                                   <span className={`text-[9px] ${task.priority === 'urgent' ? 'text-red-400' : 'text-orange-400'}`}>
@@ -483,21 +485,21 @@ export default function ChatDemo() {
                             <div className="flex gap-1.5 mt-2">
                               {task.status === 'pending' && (
                                 <div className="text-[9px] px-2 py-1 rounded bg-yellow-500/10 text-yellow-400 border border-yellow-500/20" style={{ fontFamily: "'Inter', sans-serif" }}>
-                                  Recibido
+                                  {t('task.received')}
                                 </div>
                               )}
                               {task.status === 'assigned' && (
                                 <div className="text-[9px] px-2 py-1 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20" style={{ fontFamily: "'Inter', sans-serif" }}>
-                                  Asistiendo
+                                  {t('task.attending')}
                                 </div>
                               )}
                               {task.status === 'in_progress' && (
                                 <>
                                   <div className="text-[9px] px-2 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" style={{ fontFamily: "'Inter', sans-serif" }}>
-                                    Resuelto
+                                    {t('task.resolved')}
                                   </div>
                                   <div className="text-[9px] px-2 py-1 rounded bg-red-500/10 text-red-400 border border-red-500/20" style={{ fontFamily: "'Inter', sans-serif" }}>
-                                    No resuelto
+                                    {t('task.unresolved')}
                                   </div>
                                 </>
                               )}

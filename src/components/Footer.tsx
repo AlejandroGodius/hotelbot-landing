@@ -1,4 +1,10 @@
+'use client'
+
+import { useI18n } from '@/lib/i18n'
+
 export default function Footer() {
+  const { t } = useI18n()
+
   return (
     <footer className="py-12 px-6 border-t border-white/[0.03]">
       <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
@@ -7,7 +13,7 @@ export default function Footer() {
             HotelBot
           </span>
           <span className="text-xs text-gray-600" style={{ fontFamily: "'Inter', sans-serif" }}>
-            Intelligent Hospitality
+            {t('footer.tagline')}
           </span>
         </div>
         <div className="flex items-center gap-8 text-xs text-gray-600" style={{ fontFamily: "'Inter', sans-serif" }}>

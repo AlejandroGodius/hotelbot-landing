@@ -3,75 +3,86 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import AnimatedSection from './AnimatedSection'
+import { useI18n } from '@/lib/i18n'
 
-const AGENTS = [
+interface AgentDef {
+  id: string
+  nameKey: string
+  icon: string
+  modelKey: string
+  descKey: string
+  capKeys: string[]
+  color: string
+}
+
+const AGENT_DEFS: AgentDef[] = [
   {
     id: 'reception',
-    name: 'Reception',
+    nameKey: 'agent.reception',
     icon: '🏨',
-    model: 'Advanced AI',
-    description: 'Your digital front desk. Answers everything about the property — rooms, rates, amenities, check-in procedures, policies. Draws from a rich knowledge base loaded with your real data.',
-    capabilities: ['Room information & pricing', 'Check-in/out procedures', 'Hotel policies & amenities', 'Restaurant reservations', 'Full knowledge base access'],
+    modelKey: 'agent.advanced',
+    descKey: 'agent.reception.desc',
+    capKeys: ['agent.reception.c1', 'agent.reception.c2', 'agent.reception.c3', 'agent.reception.c4', 'agent.reception.c5'],
     color: '#6B8AFF',
   },
   {
     id: 'concierge',
-    name: 'Concierge',
+    nameKey: 'agent.concierge',
     icon: '🗺️',
-    model: 'Advanced AI',
-    description: 'Local expertise on demand. Recommends restaurants, books taxis, suggests tours and activities. Searches the web in real-time when your knowledge base doesn\'t have the answer.',
-    capabilities: ['Restaurant recommendations', 'Taxi & transport booking', 'Tours & activities', 'Real-time web search', 'Local area expertise'],
+    modelKey: 'agent.advanced',
+    descKey: 'agent.concierge.desc',
+    capKeys: ['agent.concierge.c1', 'agent.concierge.c2', 'agent.concierge.c3', 'agent.concierge.c4', 'agent.concierge.c5'],
     color: '#A78BFA',
   },
   {
     id: 'housekeeping',
-    name: 'Housekeeping',
+    nameKey: 'agent.housekeeping',
     icon: '🧹',
-    model: 'Fast AI',
-    description: 'Instant response to room needs. Towels, pillows, cleaning requests — automatically creates tasks and notifies the right staff member. No call needed.',
-    capabilities: ['Extra towels & pillows', 'Room cleaning requests', 'Minibar refills', 'Amenity delivery', 'Auto-task creation'],
+    modelKey: 'agent.fast',
+    descKey: 'agent.housekeeping.desc',
+    capKeys: ['agent.housekeeping.c1', 'agent.housekeeping.c2', 'agent.housekeeping.c3', 'agent.housekeeping.c4', 'agent.housekeeping.c5'],
     color: '#34D399',
   },
   {
     id: 'maintenance',
-    name: 'Maintenance',
+    nameKey: 'agent.maintenance',
     icon: '🔧',
-    model: 'Fast AI',
-    description: 'Reports issues before they escalate. AC not working? Leak in the bathroom? The bot creates an urgent task, alerts the maintenance team, and keeps the guest informed.',
-    capabilities: ['AC & heating issues', 'Plumbing problems', 'Electrical faults', 'Urgent task creation', 'Staff alerting system'],
+    modelKey: 'agent.fast',
+    descKey: 'agent.maintenance.desc',
+    capKeys: ['agent.maintenance.c1', 'agent.maintenance.c2', 'agent.maintenance.c3', 'agent.maintenance.c4', 'agent.maintenance.c5'],
     color: '#FB923C',
   },
   {
     id: 'upselling',
-    name: 'Upselling',
+    nameKey: 'agent.upselling',
     icon: '💎',
-    model: 'Advanced AI',
-    description: 'Revenue without pressure. Responds to campaign messages with personalized offers — spa treatments, dining experiences, room upgrades. Gentle, contextual, effective.',
-    capabilities: ['Campaign responses', 'Spa & dining offers', 'Room upgrades', 'Special experiences', 'Revenue optimization'],
+    modelKey: 'agent.advanced',
+    descKey: 'agent.upselling.desc',
+    capKeys: ['agent.upselling.c1', 'agent.upselling.c2', 'agent.upselling.c3', 'agent.upselling.c4', 'agent.upselling.c5'],
     color: '#FBBF24',
   },
 ]
 
 export default function Agents() {
   const [active, setActive] = useState(0)
-  const agent = AGENTS[active]
+  const { t } = useI18n()
+  const agentDef = AGENT_DEFS[active]
 
   return (
     <section id="agents" className="py-32 px-6">
       <div className="max-w-6xl mx-auto">
         <AnimatedSection className="text-center mb-16">
           <p className="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
-            The Intelligence
+            {t('agents.label')}
           </p>
           <h2
             className="text-4xl md:text-5xl lg:text-6xl font-light text-white"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
-            Five minds, <span className="italic gradient-gold">one voice</span>
+            {t('agents.title.1')}<span className="italic gradient-gold">{t('agents.title.2')}</span>
           </h2>
           <p className="mt-6 text-gray-400 max-w-xl mx-auto text-lg" style={{ fontFamily: "'Inter', sans-serif" }}>
-            Each guest message is analyzed and routed to the specialist best
-            equipped to handle it — in under 500ms.
+            {t('agents.subtitle')}
           </p>
         </AnimatedSection>
 
@@ -79,7 +90,7 @@ export default function Agents() {
           <div className="grid lg:grid-cols-[280px_1fr] gap-6">
             {/* Agent selector */}
             <div className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0">
-              {AGENTS.map((a, i) => (
+              {AGENT_DEFS.map((a, i) => (
                 <button
                   key={a.id}
                   onClick={() => setActive(i)}
@@ -92,9 +103,9 @@ export default function Agents() {
                   <span className="text-2xl">{a.icon}</span>
                   <div>
                     <div className={`text-sm font-medium ${active === i ? 'text-white' : 'text-gray-400'}`} style={{ fontFamily: "'Inter', sans-serif" }}>
-                      {a.name}
+                      {t(a.nameKey)}
                     </div>
-                    <div className="text-[10px] text-gray-600" style={{ fontFamily: "'Inter', sans-serif" }}>{a.model}</div>
+                    <div className="text-[10px] text-gray-600" style={{ fontFamily: "'Inter', sans-serif" }}>{t(a.modelKey)}</div>
                   </div>
                   {active === i && <div className="hidden lg:block ml-auto w-1.5 h-1.5 rounded-full bg-[var(--gold)]" />}
                 </button>
@@ -104,7 +115,7 @@ export default function Agents() {
             {/* Agent detail */}
             <AnimatePresence mode="wait">
               <motion.div
-                key={agent.id}
+                key={agentDef.id}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
@@ -114,33 +125,33 @@ export default function Agents() {
                 {/* Subtle glow */}
                 <div
                   className="absolute top-0 right-0 w-64 h-64 rounded-full opacity-10 blur-3xl pointer-events-none"
-                  style={{ background: agent.color }}
+                  style={{ background: agentDef.color }}
                 />
 
                 <div className="relative z-10">
                   <div className="flex items-center gap-4 mb-6">
-                    <span className="text-4xl">{agent.icon}</span>
+                    <span className="text-4xl">{agentDef.icon}</span>
                     <div>
                       <h3 className="text-2xl font-medium text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
-                        {agent.name}
+                        {t(agentDef.nameKey)}
                       </h3>
                       <span
                         className="text-xs px-2 py-0.5 rounded-full"
-                        style={{ background: `${agent.color}15`, color: agent.color, fontFamily: "'Inter', sans-serif" }}
+                        style={{ background: `${agentDef.color}15`, color: agentDef.color, fontFamily: "'Inter', sans-serif" }}
                       >
-                        {agent.model}
+                        {t(agentDef.modelKey)}
                       </span>
                     </div>
                   </div>
 
                   <p className="text-gray-400 leading-relaxed mb-8" style={{ fontFamily: "'Inter', sans-serif" }}>
-                    {agent.description}
+                    {t(agentDef.descKey)}
                   </p>
 
                   <div className="grid sm:grid-cols-2 gap-3">
-                    {agent.capabilities.map((cap, i) => (
+                    {agentDef.capKeys.map((capKey, i) => (
                       <motion.div
-                        key={cap}
+                        key={capKey}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.08 }}
@@ -149,9 +160,9 @@ export default function Agents() {
                       >
                         <div
                           className="w-1 h-1 rounded-full flex-shrink-0"
-                          style={{ background: agent.color }}
+                          style={{ background: agentDef.color }}
                         />
-                        {cap}
+                        {t(capKey)}
                       </motion.div>
                     ))}
                   </div>

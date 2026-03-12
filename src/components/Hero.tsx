@@ -1,8 +1,11 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useI18n } from '@/lib/i18n'
 
 export default function Hero() {
+  const { t } = useI18n()
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated glow orbs */}
@@ -28,7 +31,7 @@ export default function Hero() {
         >
           <span className="w-1.5 h-1.5 rounded-full bg-[var(--gold)] animate-pulse" />
           <span className="text-xs tracking-[0.2em] uppercase text-[var(--gold-light)]">
-            AI-Powered Hospitality
+            {t('hero.badge')}
           </span>
         </motion.div>
 
@@ -40,11 +43,11 @@ export default function Hero() {
           className="text-5xl md:text-7xl lg:text-8xl font-light leading-[0.95] tracking-tight"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
-          <span className="text-white">The reception</span>
+          <span className="text-white">{t('hero.title.1')}</span>
           <br />
-          <span className="text-white">that </span>
-          <span className="gradient-gold italic font-medium">never</span>
-          <span className="text-white"> sleeps</span>
+          <span className="text-white">{t('hero.title.2')}</span>
+          <span className="gradient-gold italic font-medium">{t('hero.title.3')}</span>
+          <span className="text-white">{t('hero.title.4')}</span>
         </motion.h1>
 
         {/* Subheadline */}
@@ -55,10 +58,10 @@ export default function Hero() {
           className="mt-8 text-lg md:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed font-light"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
-          The intelligent guest experience platform for luxury hotels and villas.
+          {t('hero.subtitle.1')}
           <br className="hidden md:block" />
-          Five specialized AI agents working{' '}
-          <span className="text-white">24/7 in every language</span>.
+          {t('hero.subtitle.2')}{' '}
+          <span className="text-white">{t('hero.subtitle.3')}</span>.
         </motion.p>
 
         {/* CTAs */}
@@ -73,14 +76,14 @@ export default function Hero() {
             className="btn-glow relative px-8 py-4 bg-[var(--gold)] text-black text-sm font-semibold tracking-wider uppercase rounded-full transition-all hover:shadow-[0_0_40px_rgba(201,169,110,0.3)] active:scale-95"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            See it in action
+            {t('hero.cta.primary')}
           </a>
           <a
             href="#how"
             className="px-8 py-4 text-sm font-medium tracking-wider uppercase text-gray-400 hover:text-white transition-colors"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            How it works
+            {t('hero.cta.secondary')}
           </a>
         </motion.div>
 
@@ -92,10 +95,10 @@ export default function Hero() {
           className="mt-20 flex items-center justify-center gap-8 md:gap-16"
         >
           {[
-            { value: '< 3s', label: 'Response time' },
-            { value: '24/7', label: 'Availability' },
-            { value: '40+', label: 'Languages' },
-            { value: '80%', label: 'Queries automated' },
+            { value: '< 3s', label: t('hero.stat.response') },
+            { value: '24/7', label: t('hero.stat.availability') },
+            { value: '40+', label: t('hero.stat.languages') },
+            { value: '80%', label: t('hero.stat.automated') },
           ].map((stat, i) => (
             <div key={i} className="text-center">
               <div className="text-xl md:text-2xl font-semibold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>

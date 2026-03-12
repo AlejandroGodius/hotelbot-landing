@@ -1,49 +1,52 @@
 'use client'
 
 import AnimatedSection from './AnimatedSection'
+import { useI18n } from '@/lib/i18n'
 
-const STEPS = [
+const STEP_DEFS = [
   {
     number: '01',
-    title: 'Connect',
-    description: 'Link your hotel\'s WhatsApp Business number. No app downloads, no portals — your guests already have WhatsApp open.',
-    detail: 'Works with any WhatsApp Business API provider. Setup takes under 10 minutes.',
+    titleKey: 'how.step1.title',
+    descKey: 'how.step1.desc',
+    detailKey: 'how.step1.detail',
     icon: '📱',
   },
   {
     number: '02',
-    title: 'Teach',
-    description: 'Upload your rooms, services, pricing, policies, and local recommendations. The AI learns your property inside and out.',
-    detail: 'Onboarding wizard guides you step by step. Everything is vectorized for instant retrieval.',
+    titleKey: 'how.step2.title',
+    descKey: 'how.step2.desc',
+    detailKey: 'how.step2.detail',
     icon: '🧠',
   },
   {
     number: '03',
-    title: 'Go live',
-    description: 'Activate and your AI concierge starts handling guest messages immediately. Monitor everything from the operations dashboard.',
-    detail: 'Real-time monitoring, task management, and staff notifications from day one.',
+    titleKey: 'how.step3.title',
+    descKey: 'how.step3.desc',
+    detailKey: 'how.step3.detail',
     icon: '✨',
   },
 ]
 
 export default function HowItWorks() {
+  const { t } = useI18n()
+
   return (
     <section id="how" className="py-32 px-6 relative">
       <div className="max-w-5xl mx-auto">
         <AnimatedSection className="text-center mb-20">
           <p className="text-xs tracking-[0.3em] uppercase text-[var(--gold)] mb-4" style={{ fontFamily: "'Inter', sans-serif" }}>
-            Getting Started
+            {t('how.label')}
           </p>
           <h2
             className="text-4xl md:text-5xl lg:text-6xl font-light text-white"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
-            Three steps to <span className="italic gradient-gold">brilliance</span>
+            {t('how.title.1')}<span className="italic gradient-gold">{t('how.title.2')}</span>
           </h2>
         </AnimatedSection>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {STEPS.map((step, i) => (
+          {STEP_DEFS.map((step, i) => (
             <AnimatedSection key={step.number} delay={i * 0.15}>
               <div className="glass glass-hover rounded-2xl p-8 h-full flex flex-col transition-all duration-500 group">
                 {/* Number */}
@@ -63,15 +66,15 @@ export default function HowItWorks() {
                   className="text-2xl font-medium text-white mb-3"
                   style={{ fontFamily: "'Playfair Display', serif" }}
                 >
-                  {step.title}
+                  {t(step.titleKey)}
                 </h3>
 
                 <p className="text-gray-400 leading-relaxed mb-4 flex-1" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  {step.description}
+                  {t(step.descKey)}
                 </p>
 
                 <p className="text-xs text-gray-600 border-t border-white/5 pt-4" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  {step.detail}
+                  {t(step.detailKey)}
                 </p>
               </div>
             </AnimatedSection>
