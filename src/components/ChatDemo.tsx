@@ -206,7 +206,7 @@ export default function ChatDemo() {
   const [visibleMessages, setVisibleMessages] = useState(0)
   const [isTyping, setIsTyping] = useState(false)
   const [dashboardVisible, setDashboardVisible] = useState(0)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const chatContainerRef = useRef<HTMLDivElement>(null)
   const { t } = useI18n()
 
   const scenario = SCENARIOS[activeScenario]
@@ -237,7 +237,10 @@ export default function ChatDemo() {
   }, [activeScenario, scenario.messages, scenario.dashboardEvents.length])
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    // Scroll only within the chat container, not the whole page
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
+    }
   }, [visibleMessages, isTyping])
 
   return (
@@ -313,7 +316,7 @@ export default function ChatDemo() {
                   </div>
 
                   {/* Messages */}
-                  <div className="h-[480px] overflow-y-auto px-3 py-4 space-y-3">
+                  <div ref={chatContainerRef} className="h-[480px] overflow-y-auto px-3 py-4 space-y-3">
                     <AnimatePresence mode="popLayout">
                       {scenario.messages.slice(0, visibleMessages).map((msg, i) => (
                         <motion.div
@@ -359,7 +362,7 @@ export default function ChatDemo() {
                         </div>
                       </motion.div>
                     )}
-                    <div ref={messagesEndRef} />
+                    <div />
                   </div>
 
                   {/* Input bar */}
