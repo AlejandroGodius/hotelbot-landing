@@ -516,6 +516,28 @@ export default function ChatDemo() {
               </div>
             </div>
           </div>
+
+          {/* Bottom agent tabs — reminder to explore other scenarios */}
+          <div className="flex justify-center gap-2 mt-8 overflow-x-auto pb-2">
+            {SCENARIOS.map((s, i) => (
+              <button
+                key={s.id}
+                onClick={() => setActiveScenario(i)}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-sm transition-all whitespace-nowrap ${
+                  activeScenario === i
+                    ? 'bg-white/[0.07] border border-white/10 text-white'
+                    : 'text-gray-500 hover:text-gray-300 border border-transparent'
+                }`}
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                <span>{s.icon}</span>
+                <span>{t(`agent.${s.id}`)}</span>
+                {activeScenario === i && (
+                  <span className="w-1.5 h-1.5 rounded-full ml-1" style={{ background: s.color }} />
+                )}
+              </button>
+            ))}
+          </div>
         </AnimatedSection>
       </div>
     </section>
